@@ -22,14 +22,14 @@ int main(int argc,char** argv)
     // Validate the parameters
     if (argc != 3) {
         printf("usage: %s ip port\n", argv[0]);
-        return 1;
+        exit(1);
     }
 
     // Initialize Winsock
     iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
     if (iResult != 0) {
         printf("WSAStartup failed with error: %d\n", iResult);
-        return 1;
+        exit(1);
     }
 
     ZeroMemory(&hints, sizeof(hints));
@@ -44,7 +44,7 @@ int main(int argc,char** argv)
     if (iResult != 1) {
         printf("inet_pton failed with error: %d\n", iResult);
         WSACleanup();
-        return 1;
+        exit(1);
     }
 
     WSASetLastError(0);
@@ -53,7 +53,7 @@ int main(int argc,char** argv)
     if (ConnectSocket == INVALID_SOCKET) {
         printf("socket failed with error: %ld\n", WSAGetLastError());
         WSACleanup();
-        return 1;
+        exit(1);
     }
 
     WSASetLastError(0);
@@ -62,14 +62,9 @@ int main(int argc,char** argv)
     if (iResult == SOCKET_ERROR) {
         printf("connect failed with error: %ld\n", WSAGetLastError());
         closesocket(ConnectSocket);
-        return 1;
+        exit(1);
     }
 
-    if (ConnectSocket == INVALID_SOCKET) {
-        printf("Unable to connect to server!\n");
-        WSACleanup();
-        return 1;
-    }
     printf("connect: OK");
     return 0;
 }
