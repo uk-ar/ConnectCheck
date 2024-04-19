@@ -47,6 +47,7 @@ int main(int argc,char** argv)
         return 1;
     }
 
+    WSASetLastError(0);
     // Create a SOCKET for connecting to server
     ConnectSocket = socket(hints.sin_family, SOCK_STREAM, 0);
     if (ConnectSocket == INVALID_SOCKET) {
@@ -55,6 +56,7 @@ int main(int argc,char** argv)
         return 1;
     }
 
+    WSASetLastError(0);
     // Connect to server.
     iResult = connect(ConnectSocket, (struct sockaddr*)&hints, (int)sizeof(hints));
     if (iResult == SOCKET_ERROR) {
